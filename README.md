@@ -123,7 +123,7 @@ Building from source
   Troubleshooting
    * "cmake is not recognized": reopen the terminal after winget, or
      restart Windows.
-   * "SDL2 was not found": make sure source\third_party\SDL2 exists; it is
+  * "SDL2 was not found": make sure source\SDL2 exists; it is
      included in the repository.
    * If you already have MSYS2/MinGW, any 64-bit MinGW GCC works too.
 
@@ -135,7 +135,7 @@ About
   (https://cturt.github.io/cinoop.html). The CPU passes Blargg's cpu_instrs
   and instr_timing test ROMs.
   Code license: MIT (source\LICENSE).
-  SDL2: zlib license (source\third_party\SDL2\LICENSE.txt).
+  SDL2: zlib license (source\SDL2\LICENSE.txt).
 
   Not emulated: sound, Game Boy Color colours, Super Game Boy borders,
   link-cable multiplayer, and the rare MBC2 / MMM01 / HuC cartridges.

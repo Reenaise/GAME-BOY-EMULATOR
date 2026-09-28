@@ -46,9 +46,9 @@ add_library(gbcore STATIC
 target_include_directories(gbcore PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # ---------------------------------------------------------------------------
-# SDL2 (prefer the local copy in third_party/SDL2 - no network needed)
+# SDL2 (prefer the local copy in SDL2 - no network needed)
 # ---------------------------------------------------------------------------
-set(GB_LOCAL_SDL2 "${CMAKE_CURRENT_SOURCE_DIR}/third_party/SDL2")
+set(GB_LOCAL_SDL2 "${CMAKE_CURRENT_SOURCE_DIR}/SDL2")
 if(EXISTS "${GB_LOCAL_SDL2}/cmake/sdl2-config.cmake")
     list(APPEND CMAKE_PREFIX_PATH "${GB_LOCAL_SDL2}")
 endif()
@@ -58,7 +58,7 @@ if(NOT SDL2_FOUND)
     message(FATAL_ERROR
         "SDL2 was not found.\n"
         "Download SDL2-devel-2.x.y-mingw.zip from https://github.com/libsdl-org/SDL/releases, "
-        "extract it to third_party/SDL2 (so that third_party/SDL2/cmake/sdl2-config.cmake exists), "
+        "extract it to SDL2 (so that SDL2/cmake/sdl2-config.cmake exists), "
         "or pass -DSDL2_DIR=<path to the folder containing sdl2-config.cmake>.")
 endif()
 

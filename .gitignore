@@ -35,3 +35,6 @@ keys.cfg
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Keep the root project readme tracked
+!/README.md

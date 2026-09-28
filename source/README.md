@@ -72,7 +72,7 @@ own document in `docs/`.
 - CMake 3.16 or newer
 - Ninja
 - SDL2 development files for MinGW. A copy of SDL2 2.32.10 is included in
-  `third_party/SDL2`, so the build needs no internet access.
+  `SDL2`, so the build needs no internet access.
 
 To install the tools with winget:
 
@@ -226,5 +226,5 @@ See [docs/architecture.md](docs/architecture.md#what-comes-from-where).
 
 ## License
 
-MIT (see `LICENSE`). SDL2 in `third_party/SDL2` is under the zlib license
-(`third_party/SDL2/LICENSE.txt`).
+MIT (see `LICENSE`). SDL2 in `SDL2` is under the zlib license
+(`SDL2/LICENSE.txt`).
