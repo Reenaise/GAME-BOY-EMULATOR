@@ -1,141 +1,85 @@
-Game Boy Emulator
-=================
+# Game Boy Emulator
 
 A Game Boy (DMG) emulator written in C with SDL2. Sound is not emulated.
 
-Running it
-----------
+## Getting Started
 
-To start a game, drag its `.gb` file onto `gameboy-emulator.exe`.
+The GitHub repository contains the source code, but not a ready-made `.exe`
+or game ROMs. Git ignores `.exe` files, the `roms/` folders, and `*.gb` files,
+so you need to build the emulator and provide or generate a ROM yourself.
 
-There is a small demo in `roms`. From PowerShell at the repository root, run:
+### Build
 
-    .\gameboy-emulator.exe .\roms\demo.gb
+You need GCC for MinGW-w64, CMake, and Ninja. SDL2 is included under
+`source/SDL2`. For example, install the tools with winget:
 
-You can also pass a ROM from somewhere else. Put the path in quotes if it has
-spaces:
+```powershell
+winget install BrechtSanders.WinLibs.POSIX.UCRT Kitware.CMake Ninja-build.Ninja
+```
 
-    .\gameboy-emulator.exe "C:\Games\My Game.gb"
+From the repository root, configure and build:
 
-The executable includes SDL2, so you do not need to install SDL2 or copy an
-SDL2.dll next to it. Windows may warn that the executable is unsigned; only
-run it if you trust where you got it.
+```powershell
+cmake -S source -B source/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build source/build
+```
 
-`roms\demo.gb` is a little demo where you can move a smiley with the arrow
-keys. `roms\mbc1_test.gb` is a technical test and does not show anything.
+The executable will be at `source/build/gameboy-emulator.exe`. It is ignored by
+Git, so it stays on your computer and does not appear in the GitHub repository.
 
+### Run a Game
 
-Controls
---------
+The demo ROMs are generated locally and are also ignored by Git. To make them,
+run this from the repository root:
 
-  Game Boy          Keyboard
-  --------          --------
-  D-pad             Arrow keys
-  A                 X
-  B                 Z
-  Start             Enter
-  Select            Backspace
+```powershell
+python source/tools/make_test_roms.py
+```
 
-  Emulator
-  --------
-  Esc               Quit (the game's save is written to <game>.sav)
-  P                 Pause
-  Tab (hold)        Fast forward
-  F2                Reset
-  F12               Screenshot (screenshot000.png, ...)
-  Space / F1        Open the debugger in the console window
+Then start the demo:
 
-  To use other keys, copy keys.example.cfg, edit it and run:
-     gameboy-emulator.exe --keys mykeys.cfg game.gb
+```powershell
+.\source\build\gameboy-emulator.exe .\source\roms\demo.gb
+```
 
+Or pass the path to a ROM you are legally entitled to use:
 
-ROMs
-----
+```powershell
+.\source\build\gameboy-emulator.exe "path\to\your-game.gb"
+```
 
-  Use ROMs you have the right to use. The demo is homebrew; you do not need
-  any commercial game ROM to try the emulator.
+### Controls
 
-  Free, legal games that work well:
-   * Libbet and the Magic Floor (puzzle game, zlib license)
-       https://github.com/pinobatch/libbet/releases  -> download libbet.gb
-   * More free homebrew:  https://hh.gbdev.io  and  itch.io (search "game boy rom")
+| Game Boy button | Key |
+|---|---|
+| D-pad | Arrow keys |
+| A | X |
+| B | Z |
+| Start | Enter |
+| Select | Backspace |
+| Pause | P |
+| Fast forward (hold) | Tab |
+| Reset | F2 |
+| Screenshot | F12 |
+| Quit | Esc |
 
-  Supported cartridge types are ROM-only, MBC1, MBC3 (with clock), and MBC5.
-  To check a ROM before starting it:
+### Tests
 
-     gameboy-emulator.exe --info game.gb
+Generate the homebrew ROMs first, then run the test suite from the repository
+root:
 
-  "Game Boy Color only" games (like Pokemon Crystal) load, but show their
-  "this game is only for Game Boy Color" screen, as on a real Game Boy.
-  "Black cartridge" games that also support the original Game Boy run in
-  black and white.
+```powershell
+python source/tools/make_test_roms.py
+ctest --test-dir source/build --output-on-failure
+```
 
+### More Information
 
-Command-line options
---------------------
+Build options, debugger commands, and emulator details are in
+[source/README.md](source/README.md). The hardware notes and code walkthrough
+are in [source/docs](source/docs).
 
-  gameboy-emulator.exe [options] game.gb
+## License
 
-   -h, --help            show help
-   -s, --scale N         window size 1-10 (default 4 = 640x576)
-   -k, --keys FILE       custom key mapping
-   -d, --debug           start in the debugger
-   --info                show the cartridge header and quit
-   --headless            run without a window (for testing)
-   --frames N            quit after N frames
-   --screenshot FILE     save the last frame as PNG when quitting
-   --serial              print what the game sends over the link cable
-   --trace FILE          write a trace of every instruction
-   --bootrom FILE        run your own dump of the Game Boy boot ROM
-
-
-Building from source
---------------------
-
-  The source is in `source`. SDL2 is included there, so you do not need to
-  download it separately.
-
-    a) Install GCC (MinGW-w64), CMake, and Ninja. For example, in PowerShell:
-
-      winget install BrechtSanders.WinLibs.POSIX.UCRT
-      winget install Kitware.CMake
-      winget install Ninja-build.Ninja
-
-     Then CLOSE and REOPEN the terminal so the new PATH is picked up.
-     Check it worked:   gcc --version   cmake --version   ninja --version
-
-  b) Build:
-
-       cd source
-       cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-       cmake --build build
-
-     Result:  source\build\gameboy-emulator.exe
-
-  c) Run the tests (optional):
-
-       ctest --test-dir build --output-on-failure
-
-     Expected result: "100% tests passed".
-
-  There is more documentation in `source\README.md` and `source\docs`.
-
-  Troubleshooting
-   * "cmake is not recognized": reopen the terminal after winget, or
-     restart Windows.
-  * "SDL2 was not found": make sure source\SDL2 exists; it is
-     included in the repository.
-   * If you already have MSYS2/MinGW, any 64-bit MinGW GCC works too.
-
-
-About
------
-
-  The emulator's design was inspired by Cinoop by CTurt
-  (https://cturt.github.io/cinoop.html). The CPU passes Blargg's cpu_instrs
-  and instr_timing test ROMs.
-  Code license: MIT (source\LICENSE).
-  SDL2: zlib license (source\SDL2\LICENSE.txt).
-
-  Not emulated: sound, Game Boy Color colours, Super Game Boy borders,
-  link-cable multiplayer, and the rare MBC2 / MMM01 / HuC cartridges.
+The emulator is MIT-licensed; see [source/LICENSE](source/LICENSE). The bundled
+SDL2 files use the zlib license.
