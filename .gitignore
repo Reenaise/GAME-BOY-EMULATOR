@@ -1,0 +1,37 @@
+# Compiled binaries
+*.exe
+*.o
+*.obj
+*.out
+*.dll
+*.so
+*.dylib
+
+# Build directories
+build/
+dist/
+bin/
+obj/
+out/
+
+# ROM files (all excluded)
+roms/
+*.gb
+*.gbc
+*.gba
+*.zip
+
+# User configs
+keys.cfg
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
