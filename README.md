@@ -2,41 +2,38 @@
 
 A Game Boy (DMG) emulator written in C with SDL2. Sound is not emulated.
 
-## Getting Started
+## Build and Play
 
-The GitHub repository contains the source code, but not a ready-made `.exe`
-or game ROMs. Git ignores `.exe` files, the `roms/` folders, and `*.gb` files,
-so you need to build the emulator and provide or generate a ROM yourself.
-
-### Build
+### Prerequisites
 
 You need GCC for MinGW-w64, CMake, and Ninja. SDL2 is included under
-`source/SDL2`. For example, install the tools with winget:
+`source/SDL2`. Python 3 is only needed if you want to generate the demo ROMs.
+For example, install the build tools with winget:
 
 ```powershell
 winget install BrechtSanders.WinLibs.POSIX.UCRT Kitware.CMake Ninja-build.Ninja
 ```
 
-From the repository root, configure and build:
+### Building
+
+From the project root, configure and build:
 
 ```powershell
 cmake -S source -B source/build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build source/build
 ```
 
-The executable will be at `source/build/gameboy-emulator.exe`. It is ignored by
-Git, so it stays on your computer and does not appear in the GitHub repository.
+The executable will be at `source/build/gameboy-emulator.exe`.
 
-### Run a Game
+### Running a Game
 
-The demo ROMs are generated locally and are also ignored by Git. To make them,
-run this from the repository root:
+To generate the demo ROMs, run this from the project root:
 
 ```powershell
 python source/tools/make_test_roms.py
 ```
 
-Then start the demo:
+Then run the demo:
 
 ```powershell
 .\source\build\gameboy-emulator.exe .\source\roms\demo.gb
